@@ -58,6 +58,13 @@ the RAM here.
 
 ## Disk manager, single threaded
 
+This is the fun part. We're going to be dealing with massive files, much too big
+to fit into main system memory, so we'll need a coherent strategy to deal with
+files starting on disk, temp files written back out to clear up memory, and the
+final sorted file being written to disk. While the first cut can be simple and
+sequential, the need for parellelism for speed necessitates a good
+architecture/clean design here.
+
 ## Sort program manager
 
 There are tunable parameters to the GreedSort algorithm, such as block size for
@@ -70,7 +77,23 @@ This is the first major milestone. In a single threaded environment, with
 tunable parameters, can we get valid sort results in a time that's in line with
 expectations?
 
+## Profiling
+
+I thoroughly expect that this project will need to be adjusted, tweaked, and
+tuned over the course of development to take advantage of the specific hardware
+we have on hand. We'll need to be able to accurately measure performance of the
+overall system, as well as key subsytems, to search for bottlenecks and optimize
+them accordingly. 
+
+Also, a convenient build system is probably necessary. Makefiles should suffice
+for a program this small, but ideally the system could invoke
+profiling/measurement as well for convenience. 
+
 ## Multi-threaded disk manager
+
+The most important aspect of this part of the project is making sure we saturate
+the IO bus as thoroughly as possible. Any time spent idle is wasted, when IO is
+the bottleneck.
 
 ## Multi-threaded GreedSort
 
