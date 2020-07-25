@@ -1,6 +1,6 @@
 Hello! Welcome to the very unoriginally named PiSort project!
 
-* What this is
+# What this is
 
 PiSort is an attempt at a performant, cross-platform external sorting solution,
 with the express intent to be used as part of a submission to the
@@ -16,8 +16,8 @@ actually account for approximately 20% (1/5th) of *all computer usage*. I should
 include a reference for that, but I can't remember where it is, so take my word
 for it. 
 
-* Sorting Algorithms
-** External Sorting
+# Sorting Algorithms
+## External Sorting
 
 As mentioned above, the intent of this software is to be efficient at handling
 *external sorting*, where the dataset to be sorted is too large to fit inside a
@@ -27,7 +27,7 @@ of problem, but most of them fall under the umbrella of either *merge sorts* or
 is based directly on the Greed Sort algorithm published by James Vitter and Mark
 Nodine [1]. 
 
-** Internal Sorting
+## Internal Sorting
 
 To achieve external sorting, a routine for sorting subsequences of the main
 dataset in memory is also required. The literature on this subject is extensive,
@@ -36,9 +36,9 @@ worst-case runtime and space complexity, are Heapsort and Timsort. Having a
 robust implementation of one of these algorithms is a prerequisite to tackling
 the external sort problem.
 
-* Roadmap (Approximate) 
+# Roadmap (Approximate) 
 
-** Infrastructure Setup 
+## Infrastructure Setup (Done)
 
 This project will be written in C, based on the gcc compiler (due to its
 excellent optimization capacity and capability to target ARM processors). The
@@ -48,25 +48,31 @@ as a utility to validate the checksum of both input and output datafiles, called
 valsort. These will be linked here for testing the project as development
 progresses. 
 
-** Internal Sort Implementation
+## Internal Sort Implementation (Done)
 
-** Disk manager, single threaded
+We've gone with Heapsort as the default internal sort algorithm for now. There's
+always a possibility of coming back to this decision in the future, and moving
+to something that has a little better performance, but I just don't see the need
+for it right now since our primary bottleneck is *not* going to be the CPU or
+the RAM here. 
 
-** Sort program manager
+## Disk manager, single threaded
+
+## Sort program manager
 
 There are tunable parameters to the GreedSort algorithm, such as block size for
 disk reads and writes, as well as input/output files and disk to be used. We'll
 need a comprehensive wrapper to manage all of these dials. 
 
-** GreedSort, first cut
+## GreedSort, first cut
 
 This is the first major milestone. In a single threaded environment, with
 tunable parameters, can we get valid sort results in a time that's in line with
 expectations?
 
-** Multi-threaded disk manager
+## Multi-threaded disk manager
 
-** Multi-threaded GreedSort
+## Multi-threaded GreedSort
 
 [1] - Nodine, Mark and Vitter, Jeffrey Scott, "Greed Sort: Optimal Deterministic
 Sorting on Parallel Disks", Journal of the Association for Computing Machinery,
