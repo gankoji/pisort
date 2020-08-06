@@ -18,6 +18,7 @@ int myCompare(char * a, char * b)
     }
     
 }
+
 void heapify(record arr[], int n, int i)
 {
     int largest = i;
