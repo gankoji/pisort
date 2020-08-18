@@ -2,4 +2,4 @@
 *.o
 .vscode/launch.json
 .history/
-
+.vscode/c_cpp_properties.json

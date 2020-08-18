@@ -20,10 +20,10 @@ int main()
     char buf[105];
     char key[10];
     size_t recordSize = 104;
-    size_t count = 5e8;
+    size_t count = 5e7;
 
     long N = count;
-    long M = 6e9/((long)recordSize);
+    long M = 1e9/((long)recordSize);
     size_t B = 3e5/((long)recordSize);
 
     long loop1Times = (N/M) + 1;
