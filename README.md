@@ -13,8 +13,8 @@ which cannot fit in main memory of a single system, and in terms of efficiency,
 as with the JouleSort category. As an interesting aside, it has been estimated
 that sorting data, as a primary operation in many other aspects of computing,
 actually account for approximately 20% (1/5th) of *all computer usage*. I should
-include a reference for that, but I can't remember where it is, so take my word
-for it. 
+include a reference for that, but I can't remember where it is, so you'll have to 
+take my word for it for now. 
 
 # Sorting Algorithms
 ## External Sorting
@@ -76,6 +76,17 @@ need a comprehensive wrapper to manage all of these dials.
 This is the first major milestone. In a single threaded environment, with
 tunable parameters, can we get valid sort results in a time that's in line with
 expectations?
+
+(20200819 Update) We've progressed to the point where the next item on the
+agenda is to implement the entirety of the greedsort algorithm. We have
+capabilities in place to create initial runs of a specified memory load size and
+write them back to disk. The key remaining piece of the algorithm is now to
+merge those initial runs until only one remains, and handling the disks to make
+that a possibility. One thing needed to accomplish this, according to Nodine and
+Vitter's original specification, is an implementation of Leighton's columnsort
+algorithm, which will be included here in the next commit. This is used after
+the initial greedsort merge is run, to 'clean up' the approximately sorted list
+that this phase produces. 
 
 ## Profiling
 
