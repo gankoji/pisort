@@ -8,11 +8,12 @@
 
 // Each record is 100 bytes, with the first 10 bytes being the key. We make the
 // struct 104 bytes to align each record with the word boundary on a 64-bit
-// machine, for better access times and caching.
+// machine, for better access times and cache utilization.
 typedef struct records
 {
    char key[10];
-   char body[94]; 
+   char body[90]; 
+   char pad[4];
 } record;
 
 int myCompare(char * a, char * b);
