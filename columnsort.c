@@ -1,22 +1,12 @@
 //#include <pthread.h>
-#include <math.h>
-#include <stdlib.h>
-#include <stdio.h>
 
-#include "heapsort.h"
-
-typedef struct {
-    size_t start;
-    size_t size;
-} column_t;
-
-typedef void column_sorter(record *, column_t *, int);
+#include "columnsort.h"
 
 /*
  * Verify the dimensions of the passed array.
  */
-
-int check_dimensions(size_t r, size_t s) {
+int check_dimensions(size_t r, size_t s)
+{
     if (r % 2) {
         fprintf(stderr, "r must be even\n");
         return 0;
@@ -28,20 +18,33 @@ int check_dimensions(size_t r, size_t s) {
     }
 
     if (r < 2 * s * s) {
-        fprintf(stderr, "r must be grater than 2s²\n");
+        fprintf(stderr, "r must be greater than 2s²\n");
         return 0;
     }
 
     return 1;
 }
 
-/**
+/*  Next, we need a method that will do the actual sorting of the columns in the
+    array. We'll reuse heapsort here for simplicity.
+*/
+void columnHeapSort(record * arr, column_t * colpairs, int numcols)
+{
+  for (int i=0; i<numcols; i++)
+    {
+      /*  Call our other heapsort alg for insort place on each column. */
+      record * tempCol = &arr[colpairs[i].start];
+      heapSort(tempCol, colpairs[i].size);
+    }
+}
+
+/*
  * The basic column sort implementation. It does a copy of the array for steps
  * 3 and 5. It also does not sort the half-columns in the beginning and the
  * end, since that is not necessary for the correctness of the algorithm.
  */
-
-void columnsort(record *A, size_t r, size_t s, column_sorter sort_columns) {
+void columnsort(record *A, size_t r, size_t s, column_sorter sort_columns)
+{
     size_t size = r * s;
     record *copy;
     column_t *columns;

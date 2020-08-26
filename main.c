@@ -11,11 +11,11 @@ int main()
     FILE * inputFile, * outputFile;
     inputFile = fopen("./inputs", "r");
     outputFile = fopen("./outputs", "w");
-    
+
     int b = 1e3; // number of records per block to read/sort
     int rSize = 100; // number of bytes per record.
     int k = 0, i = 0; // block counters
-    
+
     char filename[10];
     char buf[105];
     char key[10];
