@@ -30,11 +30,11 @@ int check_dimensions(size_t r, size_t s)
 */
 void columnHeapSort(record * arr, column_t * colpairs, int numcols)
 {
-  for (int i=0; i<numcols; i++)
+    for (int i=0; i<numcols; i++)
     {
-      /*  Call our other heapsort alg for insort place on each column. */
-      record * tempCol = &arr[colpairs[i].start];
-      heapSort(tempCol, colpairs[i].size);
+        /*  Call our other heapsort alg for insort place on each column. */
+        record * tempCol = &arr[colpairs[i].start];
+        heapSort(tempCol, colpairs[i].size);
     }
 }
 
@@ -59,7 +59,9 @@ void columnsort(record *A, size_t r, size_t s, column_sorter sort_columns)
     columns = calloc(s, sizeof(column_t));
 
     for (size_t i = 0; i < s; i++) {
-        columns[i] = (column_t) {i * r, r};
+        columns[i] = (column_t) {
+            i * r, r
+        };
     }
 
     sort_columns(A, columns, s);
@@ -77,7 +79,9 @@ void columnsort(record *A, size_t r, size_t s, column_sorter sort_columns)
     sort_columns(A, columns, s);
 
     for (size_t i = 0; i < s - 1; i++) {
-        columns[i] = (column_t) {i * r + r / 2, r};
+        columns[i] = (column_t) {
+            i * r + r / 2, r
+        };
     }
 
     sort_columns(A, columns, s - 1);

@@ -1,5 +1,5 @@
-all: main.o heapsort.o columnsort.o
-		gcc main.o heapsort.o columnsort.o -o pisort -m64
+all: main.o heapsort.o columnsort.o greedsort.o
+		gcc main.o heapsort.o columnsort.o greedsort.o -o pisort -m64
 
 test: testMain.o heapsort.o columnsort.o columnsorttest.o
 		gcc testMain.o heapsort.o columnsort.o columnsorttest.o -o piSortTest -m64
@@ -19,6 +19,9 @@ heapsort.o: heapsort.c
 
 columnsort.o: columnsort.c
 		gcc -c columnsort.c -m64
+
+greedsort.o: greedsort.c
+		gcc -c greedsort.c -m64
 
 clean:
 		rm -f *.o *.exe

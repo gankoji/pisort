@@ -16,7 +16,7 @@ int myCompare(char * a, char * b)
     {
         return 0;
     }
-    
+
 }
 
 void heapify(record arr[], int n, int i)
@@ -53,7 +53,7 @@ void printArray(record arr[], int n)
     for (int i = 0; i < n; ++i)
     {
         // The keys are stored directly in line with the record, with no null
-        // terminator. This confuses poor C. Buffer it and add one for printing. 
+        // terminator. This confuses poor C. Buffer it and add one for printing.
         memcpy(printableKey, arr[i].key, 10);
         printableKey[10] = '\0';
 

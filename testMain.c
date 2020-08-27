@@ -3,7 +3,7 @@
 
 int main()
 {
-  testColumnSort();
+    testColumnSort();
 
-  return 0;
+    return 0;
 }
