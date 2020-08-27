@@ -1,27 +1,54 @@
-all: main.o heapsort.o columnsort.o greedsort.o
-		gcc main.o heapsort.o columnsort.o greedsort.o -o pisort -m64
+CC = gcc
+LD = gcc
+# This makefile is borderline spaghetti code/unmaintainable. It works for now,
+# with the mere 6 or 7 source files we have at the moment. If we were to
+# significantly expand that number, loops would need to be integrated, or even a
+# move to automake would be justified. However, at the moment, this is passable,
+# and has the desired effect of keeping the code organized and the working
+# directory clear of build artifacts.
 
-test: testMain.o heapsort.o columnsort.o columnsorttest.o
-		gcc testMain.o heapsort.o columnsort.o columnsorttest.o -o piSortTest -m64
+CFLAGS = -Wall -Wpedantic -m64
+
+TARGET = pisort.exe
+
+SOURCEDIR = ./src
+BUILDDIR = ./build
+SOURCES = $(wildcard $(SOURCEDIR)/*.c)
+OBJS = $(notdir $(SOURCES:.c=.o))
+OBJECTS = $(addprefix $(BUILDDIR)/, $(OBJS))
+
+TESTTGT = pisorttest.exe
+TESTDIR = ./test
+TESTSRC = $(wildcard $(TESTDIR)/*.c)
+TESTO = $(notdir $(TESTSRC:.c=.o))
+TESTOBJS = $(addprefix $(BUILDDIR)/, $(TESTO))
+
+.PHONY: all
+
+all: $(OBJECTS)
+		$(CC) $(OBJECTS) -o $(TARGET) $(CFLAGS)
+
+$(BUILDDIR)/main.o: $(SOURCEDIR)/main.c
+		$(CC) -c $(SOURCEDIR)/main.c -o $(BUILDDIR)/main.o $(CFLAGS)
+
+$(BUILDDIR)/heapsort.o: $(SOURCEDIR)/heapsort.c
+		$(CC) -c $(SOURCEDIR)/heapsort.c -o $(BUILDDIR)/heapsort.o $(CFLAGS)
+
+$(BUILDDIR)/columnsort.o: $(SOURCEDIR)/columnsort.c
+		$(CC) -c $(SOURCEDIR)/columnsort.c -o $(BUILDDIR)/columnsort.o $(CFLAGS)
+
+$(BUILDDIR)/greedsort.o: $(SOURCEDIR)/greedsort.c
+		$(CC) -c $(SOURCEDIR)/greedsort.c -o $(BUILDDIR)/greedsort.o $(CFLAGS)
+
+test: $(TESTOBJS) $(OBJECTS)
+		$(CC) $(TESTOBJS) $(BUILDDIR)/heapsort.o $(BUILDDIR)/columnsort.o -o $(TESTTGT) $(CFLAGS)
 		./piSortTest.exe
 
-testMain.o: testMain.c
-		gcc -c testMain.c -m64
+$(BUILDDIR)/testMain.o: $(TESTDIR)/testMain.c
+		$(CC) -c $(TESTDIR)/testMain.c -o $(BUILDDIR)/testMain.o $(CFLAGS)
 
-columnSortTest.o: columnsorttest.c
-		gcc -c columnsorttest.c -m64
-
-main.o: main.c
-		gcc -c main.c -m64
-
-heapsort.o: heapsort.c
-		gcc -c heapsort.c -m64
-
-columnsort.o: columnsort.c
-		gcc -c columnsort.c -m64
-
-greedsort.o: greedsort.c
-		gcc -c greedsort.c -m64
+$(BUILDDIR)/columnsorttest.o: $(TESTDIR)/columnSortTest.c
+		$(CC) -c $(TESTDIR)/columnSortTest.c -o $(BUILDDIR)/columnsorttest.o $(CFLAGS)
 
 clean:
-		rm -f *.o *.exe
+		rm -f $(TARGET) $(BUILDDIR)/*.o

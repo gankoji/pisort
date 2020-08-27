@@ -56,7 +56,7 @@ to something that has a little better performance, but I just don't see the need
 for it right now since our primary bottleneck is *not* going to be the CPU or
 the RAM here.
 
-## Disk manager, single threaded
+## Disk manager, single threaded (Done)
 
 This is the fun part. We're going to be dealing with massive files, much too big
 to fit into main system memory, so we'll need a coherent strategy to deal with
@@ -65,13 +65,13 @@ final sorted file being written to disk. While the first cut can be simple and
 sequential, the need for parellelism for speed necessitates a good
 architecture/clean design here.
 
-## Sort program manager
+## Sort program manager (Done)
 
 There are tunable parameters to the GreedSort algorithm, such as block size for
 disk reads and writes, as well as input/output files and disk to be used. We'll
 need a comprehensive wrapper to manage all of these dials.
 
-## GreedSort, first cut
+## GreedSort, first cut (Done, ish)
 
 This is the first major milestone. In a single threaded environment, with
 tunable parameters, can we get valid sort results in a time that's in line with
@@ -88,24 +88,36 @@ algorithm, which will be included here in the next commit. This is used after
 the initial greedsort merge is run, to 'clean up' the approximately sorted list
 that this phase produces.
 
+## ColumnSort (Done)
 (20200826 Update) After today's commits, we've managed to implement a working
 version of the columnsort algorithm, which reuses some of our previous work (the
 heapsort implementation) as the subordinate sorting algorithm. Funny, how all of
 these different sorting techniques require an 'actual sorting implementation'
 under the hood...
 
+## Unit Tests! Sort of ... (Done)
 Also of note, unit testing functionality has been added to cover the columnsort
 implementation, and can be called directly from make! Simply run 'make test' to
 compile the unit test bench and see the results. At the moment, the tests are
 pretty trivial, but I thought it was a good time to get the basics setup for
 future use.
 
+## Refactoring Time! (Already?) (Also, Done)
 Next up will be a slight refactor of main, mostly to break out the initial loop
 of greedsort to its own function. I think the final intent is to have greedSort
 be a fuction, who's body simply calls out to a handful of helpers, like
 columnSort. Additionally, we'll refactor the makefile to place build artifacts
 into their own folder, and the final binary outputs to yet another one. This
 should help keep the development space clear. 
+
+## GreedSort, cut 2 (In Progress)
+
+Now that we've spent some serious time and effort understanding the inner
+workings of this algorithm, including implementing the minor pieces needed to
+build it up (like heapsort, columnsort, and the initial run creation), as well
+as refactored the code to make it much easier to understand the pieces and how
+they fit together, it's time to take another crack at getting the merge phase
+down in code. That's the goal for this week/weekend (28-30 Aug). 
 
 ## Profiling
 
