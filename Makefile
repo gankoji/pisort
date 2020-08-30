@@ -1,5 +1,3 @@
-CC = gcc
-LD = gcc
 # This makefile is borderline spaghetti code/unmaintainable. It works for now,
 # with the mere 6 or 7 source files we have at the moment. If we were to
 # significantly expand that number, loops would need to be integrated, or even a
@@ -7,6 +5,8 @@ LD = gcc
 # and has the desired effect of keeping the code organized and the working
 # directory clear of build artifacts.
 
+CC = gcc
+LD = gcc
 CFLAGS = -Wall -Wpedantic -m64
 
 TARGET = pisort.exe
@@ -25,7 +25,7 @@ TESTOBJS = $(addprefix $(BUILDDIR)/, $(TESTO))
 
 .PHONY: all
 
-all: $(OBJECTS)
+all: format $(OBJECTS)
 		$(CC) $(OBJECTS) -o $(TARGET) $(CFLAGS)
 
 $(BUILDDIR)/main.o: $(SOURCEDIR)/main.c
@@ -50,5 +50,7 @@ $(BUILDDIR)/testMain.o: $(TESTDIR)/testMain.c
 $(BUILDDIR)/columnsorttest.o: $(TESTDIR)/columnSortTest.c
 		$(CC) -c $(TESTDIR)/columnSortTest.c -o $(BUILDDIR)/columnsorttest.o $(CFLAGS)
 
+format:
+		astyle --indent=tab --style=allman $(SOURCEDIR)/*.c $(TESTDIR)/*.c $(SOURCEDIR)/*.h $(TESTDIR)/*.h
 clean:
 		rm -f $(TARGET) $(BUILDDIR)/*.o

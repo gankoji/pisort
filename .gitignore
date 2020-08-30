@@ -3,3 +3,6 @@
 .vscode/launch.json
 .history/
 .vscode/c_cpp_properties.json
+*.orig
+*.bak
+/.#README.md

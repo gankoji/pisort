@@ -7,9 +7,10 @@
 
 #include "heapsort.h"
 
-typedef struct {
-  size_t start;
-  size_t size;
+typedef struct
+{
+	size_t start;
+	size_t size;
 } column_t;
 
 typedef void column_sorter(record *, column_t *, int);

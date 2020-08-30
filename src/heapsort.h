@@ -11,8 +11,8 @@
 // machine, for better access times and cache utilization.
 typedef struct records
 {
-   char key[10];
-   char body[90];
+	char key[10];
+	char body[90];
 } record;
 
 int myCompare(char * a, char * b);
