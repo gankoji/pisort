@@ -6,3 +6,5 @@
 *.orig
 *.bak
 /.#README.md
+input*
+output*

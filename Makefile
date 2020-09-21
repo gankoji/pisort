@@ -25,8 +25,18 @@ TESTOBJS = $(addprefix $(BUILDDIR)/, $(TESTO))
 
 .PHONY: all
 
-all: format $(OBJECTS)
-		$(CC) $(OBJECTS) -o $(TARGET) $(CFLAGS)
+all: format simple
+
+#$(OBJECTS)
+#		$(CC) $(OBJECTS) -o $(TARGET) $(CFLAGS)
+
+runit: format simple
+		../Tools/gensort-1.5/gensort.exe -a 300000000 input
+		./pisort.exe
+		../Tools/gensort-1.5/valsort.exe output
+
+simple: $(SOURCEDIR)/newmain.cc
+		g++ -g -std=c++11 -I external_sort -pthread src/newmain.cc -o ./pisort
 
 $(BUILDDIR)/main.o: $(SOURCEDIR)/main.c
 		$(CC) -c $(SOURCEDIR)/main.c -o $(BUILDDIR)/main.o $(CFLAGS)
@@ -51,6 +61,7 @@ $(BUILDDIR)/columnsorttest.o: $(TESTDIR)/columnSortTest.c
 		$(CC) -c $(TESTDIR)/columnSortTest.c -o $(BUILDDIR)/columnsorttest.o $(CFLAGS)
 
 format:
-		astyle --indent=tab --style=allman $(SOURCEDIR)/*.c $(TESTDIR)/*.c $(SOURCEDIR)/*.h $(TESTDIR)/*.h
+		astyle --indent=tab --style=allman $(SOURCEDIR)/*.c $(TESTDIR)/*.c $(SOURCEDIR)/*.h $(TESTDIR)/*.h $(SOURCEDIR)/*.cc $(SOURCEDIR)/*.hpp
+
 clean:
 		rm -f $(TARGET) $(BUILDDIR)/*.o

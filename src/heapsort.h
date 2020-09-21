@@ -13,6 +13,7 @@ typedef struct records
 {
 	char key[10];
 	char body[90];
+	char buf[4];
 } record;
 
 int myCompare(char * a, char * b);
