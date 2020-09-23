@@ -27,16 +27,19 @@ TESTOBJS = $(addprefix $(BUILDDIR)/, $(TESTO))
 
 all: format simple
 
-#$(OBJECTS)
-#		$(CC) $(OBJECTS) -o $(TARGET) $(CFLAGS)
-
 runit: format simple
 		../Tools/gensort-1.5/gensort.exe -a 300000000 input
-		./pisort.exe
+		time ./pisort.exe
 		../Tools/gensort-1.5/valsort.exe output
 
 simple: $(SOURCEDIR)/newmain.cc
-		g++ -g -std=c++11 -I external_sort -pthread src/newmain.cc -o ./pisort
+		g++ $(CFLAGS) -std=c++11 -I external_sort -pthread src/newmain.cc -o ./pisort
+
+format: $(SOURCEDIR)/*.c $(TESTDIR)/*.c $(SOURCEDIR)/*.h $(TESTDIR)/*.h $(SOURCEDIR)/*.cc $(SOURCEDIR)/*.hpp
+		astyle --indent=tab --style=allman $(SOURCEDIR)/*.c $(TESTDIR)/*.c $(SOURCEDIR)/*.h $(TESTDIR)/*.h $(SOURCEDIR)/*.cc $(SOURCEDIR)/*.hpp
+
+clean:
+		rm -f $(TARGET) $(BUILDDIR)/*.o ./output* ./input*
 
 $(BUILDDIR)/main.o: $(SOURCEDIR)/main.c
 		$(CC) -c $(SOURCEDIR)/main.c -o $(BUILDDIR)/main.o $(CFLAGS)
@@ -60,8 +63,4 @@ $(BUILDDIR)/testMain.o: $(TESTDIR)/testMain.c
 $(BUILDDIR)/columnsorttest.o: $(TESTDIR)/columnSortTest.c
 		$(CC) -c $(TESTDIR)/columnSortTest.c -o $(BUILDDIR)/columnsorttest.o $(CFLAGS)
 
-format:
-		astyle --indent=tab --style=allman $(SOURCEDIR)/*.c $(TESTDIR)/*.c $(SOURCEDIR)/*.h $(TESTDIR)/*.h $(SOURCEDIR)/*.cc $(SOURCEDIR)/*.hpp
 
-clean:
-		rm -f $(TARGET) $(BUILDDIR)/*.o

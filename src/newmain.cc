@@ -1,6 +1,3 @@
-// can be compiled with:
-// g++ -std=c++11 -I.. -pthread simple_example1.cc -o ./simple1
-
 #include <iostream>
 
 #include "external_sort.hpp"
@@ -11,11 +8,12 @@ int main()
 	// set split and merge parameters
 	external_sort::SplitParams sp;
 	external_sort::MergeParams mp;
-	sp.mem.size = 10;
+	sp.mem.size = 10000;
 	sp.mem.unit = external_sort::MB;
+	sp.mem.blocks = 30;
 	mp.mem = sp.mem;
-	sp.spl.ifile = "input";
-	mp.mrg.ofile = "output";
+	sp.spl.ifile = "/s/Sorting/input";
+	mp.mrg.ofile = "/t/Sorting/output";
 
 	using ValueType = CustomRecord;
 
